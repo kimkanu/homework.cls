@@ -103,7 +103,7 @@
 \setcounter { homework_solution } { 1 }
 \newsavebox { \homework_numbering }
 \NewDocumentCommand { \solution }
-    { s O{ \arabic{ homework_solution } } m }
+    { s O{ \arabic{ homework_solution } } +m }
     {
         \noindent
         \sbox { \homework_numbering } {
