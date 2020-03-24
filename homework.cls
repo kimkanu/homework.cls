@@ -5,6 +5,7 @@
 
 \RequirePackage{expl3}
 \RequirePackage{xparse}
+\RequirePackage{xstring}
 \RequirePackage{xcolor}
 \RequirePackage{setspace}
 \RequirePackage{fancyhdr}
@@ -101,17 +102,18 @@
 %==========%
 \newcounter { homework_solution }
 \setcounter { homework_solution } { 1 }
+\tl_new:N \l__counter_expanded
+\tl_set:Nx \l__counter_expanded { 1 }
 \newsavebox { \homework_numbering }
 \NewDocumentCommand { \solution }
-    { s O{ \arabic{ homework_solution } } m }
+    { s O{ \l__counter_expanded } +m }
     {
         \noindent
         \sbox { \homework_numbering } {
             \textcolor { homework_headingcolor } {
                 \IfBooleanTF #1 { \# } {}
-                \oldstylenums {
-                    \itshape \bfseries \Large #2 .
-                }
+                \itshape \bfseries \Large
+                \__homework_oldstyle:n { #2 } .
             }
         }
         \hspace*{ \dimexpr - \wd \homework_numbering - 5pt\relax }
@@ -122,9 +124,16 @@
         \vspace{0.7em}
 
         \addtocounter { homework_solution } { 1 }
+        \tl_set:Nx \l__counter_expanded { \arabic{ homework_solution } }
     }
 
+\cs_new:Nn \__homework_oldstyle:n {
+    \tl_map_inline:nn { #1 } { \__homework_oldstyle_digits_only:n { ##1 } }
+}
 
+\cs_new:Nn \__homework_oldstyle_digits_only:n {
+    \IfInteger{#1}{{\slshape\oldstylenums{#1}}}{#1} 
+}
 \ExplSyntaxOff
 \makeatother
 
