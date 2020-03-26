@@ -1,0 +1,25 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesExplPackage{macros-prob}{2020/03/26}{1.0}{Macros used in probability theoretical context}
+
+\RequirePackage{expl3}
+\RequirePackage{xparse}
+
+\newif\ifbb
+\DeclareOption{bb}{
+  \bbtrue
+}
+
+\bbfalse
+\ProcessOptions\relax
+
+\makeatletter
+
+\def\P{\ifbb \expandafter\P@bb \else \expandafter\P@nbb\fi}
+\def\P@bb{\mathbb{P}\expandafter\paren}
+\def\P@nbb{P\expandafter\paren}
+
+\newcommand{\E}{\ensuremath{\ifbb\mathbb{E}\else\mathrm{E}\fi}}
+\newcommand{\Var}{\ensuremath{\operatorname{Var}}}
+\newcommand{\Cov}{\ensuremath{\operatorname{Cov}}}
+
+\makeatother
