@@ -11,6 +11,7 @@
 \RequirePackage{fancyhdr}
 
 \setstretch{1.1}
+\parskip=7pt
 
 \makeatletter
 \ExplSyntaxOn
